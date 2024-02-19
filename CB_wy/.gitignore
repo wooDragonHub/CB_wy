@@ -1,4 +1,9 @@
 HELP.md
+
+# ignore properties file
+application.properties
+application-API-KEY.properties
+
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
