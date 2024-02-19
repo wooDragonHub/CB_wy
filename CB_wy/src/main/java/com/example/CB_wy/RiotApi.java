@@ -11,6 +11,7 @@ public class RiotApi {
 
     @GetMapping("/livechk")
     public String live_chk(){
+        // 테스트 커밋
         return RIOT_KEY;
     }
 }
