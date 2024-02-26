@@ -28,8 +28,7 @@ public class RiotApiService {
             // uri 생성
             URI uri = UriComponentsBuilder
                     .fromUriString(serverUrl)
-                    .path("/lol/summoner/v4/summoners/by-name/")
-                    .queryParam("summonerName" , summonerName)
+                    .path("/lol/summoner/v4/summoners/by-name/" + summonerName)
                     .queryParam("api_key", RIOT_KEY)
                     .encode()
                     .build()
