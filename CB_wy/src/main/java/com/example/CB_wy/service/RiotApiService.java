@@ -7,9 +7,11 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.HashMap;
 
 
 @Service
@@ -18,7 +20,7 @@ public class RiotApiService {
     @Value("${RIOT-KEY}")
     private String RIOT_KEY;
 
-    public String callRiotAPISummonerByName(String summonerName){
+    public ResponseEntity<Object> callRiotAPISummonerByName(String summonerName){
         // 소환사명 공백제거
         summonerName = summonerName.replaceAll(" ","%20");
 
@@ -26,24 +28,28 @@ public class RiotApiService {
         try {
             //serverUrl + "/lol/summoner/v4/summoners/by-name/" + summonerName + "?api_key=" + mykey
             // uri 생성
-            URI uri = UriComponentsBuilder
+            UriComponents uri = UriComponentsBuilder
                     .fromUriString(serverUrl)
                     .path("/lol/summoner/v4/summoners/by-name/" + summonerName)
                     .queryParam("api_key", RIOT_KEY)
-                    .encode()
-                    .build()
-                    .toUri();
+                    .build();
 
             // restemplate 객체 생성
             RestTemplate restTemplate = new RestTemplate(); // restTemplate 객체 생성
-            // restemplate를 이용하여 get 요청 수행
-            String response = restTemplate.getForObject(uri, String.class);
+            // ResponseEntity로 get 요청을 반환받음(json으로 리턴하기 위함)
+            ResponseEntity<Object> result = restTemplate.exchange(uri.toString(), HttpMethod.GET, null,Object.class);
 
-            return response;
+            //해당 요청을 hash<map<String, object>> 로 변환하여 리턴할 경우 해당 소스 참고
+//            HashMap<String, Object> resultMap = new HashMap<String, Object>();
+//            resultMap.put("statusCode", result.getStatusCode());
+//            resultMap.put("header", result.getHeaders());
+//            resultMap.put("body", result.getBody());
+
+            return result;
 
         } catch (Exception e){
-
-            return e.toString();
+            ResponseEntity<Object> resultMap = new ResponseEntity<>(e.toString(),null,500); // 반환받을 빈객체
+            return resultMap;
         }
     }
 }

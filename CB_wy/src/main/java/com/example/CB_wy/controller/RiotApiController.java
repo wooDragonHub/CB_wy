@@ -1,6 +1,7 @@
 package com.example.CB_wy.controller;
 
 import com.example.CB_wy.service.RiotApiService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,10 +20,12 @@ public class RiotApiController {
     }
 
     @GetMapping("/summonerByName")
-    public String callSummonerByName(String summonerName){
+    public ResponseEntity<Object> callSummonerByName(String summonerName){
         // callRiotAPISummonerByName
-        String result = riotApiService.callRiotAPISummonerByName(summonerName);
+        //ResponseEntity<Object> resultMap = new ResponseEntity<>(null,null,200);
+        ResponseEntity<Object> resultMap = riotApiService.callRiotAPISummonerByName(summonerName);
+        //String result = riotApiService.callRiotAPISummonerByName(summonerName);
 
-        return result;
+        return resultMap;
     }
 }
