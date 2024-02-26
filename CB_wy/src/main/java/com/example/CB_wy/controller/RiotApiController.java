@@ -28,4 +28,12 @@ public class RiotApiController {
 
         return resultMap;
     }
+
+    @GetMapping("/callRiotAPIAccountsByRiotId")
+    public ResponseEntity<Object> callRiotAPIAccountsByRiotId(String RiotId, String Tag){
+        // callRiotAPIAccountsByRiotId
+        ResponseEntity<Object> resultMap = riotApiService.callRiotAPIAccountsByRiotId(RiotId, Tag);
+
+        return resultMap;
+    }
 }
